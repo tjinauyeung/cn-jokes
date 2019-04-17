@@ -5,7 +5,8 @@
   "rules": {
     "ordered-imports": false,
     "interface-name": [true, "never-prefix"],
-    "member-access": [true, "no-public"]
+    "member-access": [true, "no-public"],
+    "no-implicit-dependencies": [true, "dev"]
   },
   "rulesDirectory": []
 }

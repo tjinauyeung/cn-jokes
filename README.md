@@ -4,7 +4,6 @@ A simple Chuck Norris list of jokes app
 #### Dependencies
 - Node.js
 - NVM
-- Yarn (optional)
 
 #### Getting started
 
@@ -17,19 +16,25 @@ nvm use
 2. Install npm packages
 
 ```bash
-yarn
+npm i
 ```
 
-3. Develop project
+3. Start project
 
 ```bash
-yarn start
+npm start
 ```
 
 Visit localhost:1234 to see project.
 
 #### Run tests
 
+Run test once
 ```bash
-yarn test
+npm test
+```
+
+Watch tests
+```bash
+npm test:watch
 ```

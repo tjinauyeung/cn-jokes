@@ -1,28 +1,38 @@
-// import * as React from "react";
-// import { Joke } from "./index";
-// import * as TestRenderer from "react-test-renderer";
+import * as React from "react";
+import { shallow } from "enzyme";
+import { Joke } from "./index";
 
-// // const props = {
-// //   joke: {
-// //     id: "123",
-// //     joke: "Foo foo foo"
-// //   },
-// //   onClick: () => "foo",
-// //   buttonText: "foo"
-// // };
-// // const component = TestRenderer.create(
-// //   <Joke
-// //     joke={props.joke}
-// //     buttonText={props.buttonText}
-// //     onClick={props.onClick}
-// //   />
-// // );
-// // const instance = component.getInstance();
+const makeComponent = props => shallow(<Joke {...props} />);
 
-// describe("Joke", () => {
-//   it("render a div", () => {});
+const spy = jest.fn();
+const expectedJoke = "foo";
+const expectedButtonText = "bar";
 
-//   it("foo", () => {
-//     expect(1 + 2).toBe(3);
-//   });
-// });
+const component = makeComponent({
+  joke: {
+    id: "123",
+    joke: expectedJoke
+  },
+  buttonText: expectedButtonText,
+  onClick: spy
+});
+
+describe("Joke", () => {
+  it("renders a div", () => {
+    expect(component.is("div")).toBe(true);
+  });
+
+  it("renders joke from props", () => {
+    expect(component.find(".joke span").text()).toBe(expectedJoke);
+  });
+
+  it("renders button text from props", () => {
+    expect(component.find(".joke button").text()).toBe(expectedButtonText);
+  });
+
+  it("calls onClick function when button is clicked", () => {
+    expect(spy).not.toHaveBeenCalled();
+    component.find(".joke button").simulate("click");
+    expect(spy).toHaveBeenCalled();
+  });
+});

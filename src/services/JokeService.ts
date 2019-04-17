@@ -13,6 +13,8 @@ const ENDPOINTS = {
 };
 
 export class JokeService {
+  static ENDPOINTS = ENDPOINTS;
+
   request: RequestService;
   storage: StorageService;
 

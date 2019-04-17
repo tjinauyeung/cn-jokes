@@ -11,10 +11,10 @@ class StorageService {
     this.storage = options.storage || localStorage;
   }
 
-  set(joke: Joke): Joke[] {
+  set = (joke: Joke): Joke[] => {
     this.storage.setItem(joke.id, JSON.stringify(joke));
     return this.getAll();
-  }
+  };
 
   get(jokeId: string): Joke {
     return JSON.parse(this.storage.getItem(jokeId));
