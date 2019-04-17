@@ -1,7 +1,13 @@
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
 body {
-  margin: 60px;
   font-family: Work Sans, "Helvetica Neue", sans-serif;
   text-align: center;
+  margin: 60px;
 }
 
 .title {
