@@ -1,0 +1,64 @@
+Arguments: 
+  /Users/tjin/.nvm/versions/node/v10.15.0/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js add index.scss
+
+PATH: 
+  /Users/tjin/.nvm/versions/node/v10.15.0/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/Users/tjin/projects/cn-joke-list/node_modules/.bin:/Users/tjin/.nvm/versions/node/v10.15.0/bin:/Users/tjin/gems/bin:/usr/local/opt/ruby/bin:/usr/local/bin:/usr/local/go/bin:/usr/local/sbin:/Users/tjin/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  10.15.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://nexus.yellitech.io/repository/nx-npm-group/index.scss: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:65656:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:134675:22)
+      at Request.emit (events.js:182:13)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:135658:10)
+      at Request.emit (events.js:182:13)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.7.0/libexec/lib/cli.js:135578:12)
+      at Object.onceWrapper (events.js:273:13)
+      at IncomingMessage.emit (events.js:187:15)
+      at endReadableNT (_stream_readable.js:1094:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
+
+npm manifest: 
+  {
+    "name": "cn-joke-list",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "start": "parcel ./src/index.html"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/tjinauyeung/cn-jokes.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/tjinauyeung/cn-jokes/issues"
+    },
+    "homepage": "https://github.com/tjinauyeung/cn-jokes#readme",
+    "dependencies": {
+      "react": "^16.8.6",
+      "react-dom": "^16.8.6"
+    },
+    "devDependencies": {
+      "@types/react": "^16.8.13",
+      "@types/react-dom": "^16.8.4",
+      "parcel": "^1.12.3",
+      "typescript": "^3.4.3"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
