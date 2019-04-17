@@ -21,26 +21,26 @@ export class JokeService {
     this.storage = options.storage || new StorageService();
   }
 
-  getAll(): Promise<Joke[]> {
+  getAll = (): Promise<Joke[]> => {
     return this.request.get(ENDPOINTS.jokes).then(res => res.value);
-  }
+  };
 
-  getRandom(): Promise<Joke> {
+  getRandom = (): Promise<Joke> => {
     return this.request
       .get(ENDPOINTS.joke)
       .then(res => res.value)
       .then(jokeList => jokeList.length && jokeList[0]);
-  }
+  };
 
-  getFavourites(): Promise<Joke[]> {
+  getFavourites = (): Promise<Joke[]> => {
     return Promise.resolve(this.storage.getAll());
-  }
+  };
 
-  addToFavourites(joke: Joke): Promise<Joke[]> {
+  addToFavourites = (joke: Joke): Promise<Joke[]> => {
     return Promise.resolve(this.storage.set(joke));
-  }
+  };
 
-  removeFromFavourites(joke: Joke): Promise<Joke[]> {
+  removeFromFavourites = (joke: Joke): Promise<Joke[]> => {
     return Promise.resolve(this.storage.remove(joke));
-  }
+  };
 }

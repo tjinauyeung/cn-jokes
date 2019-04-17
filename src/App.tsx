@@ -1,7 +1,11 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { JokeService } from "./services/JokeService";
+import { TabJokes } from "./components/TabJokes";
+import { TabFavourites } from "./components/TabFavourites";
+import { useFavouritesTimer } from "./hooks/useFavouritesTimer";
 
+const TIMER_INTERVAL = 1000;
 const TAB_JOKES = "tab_jokes";
 const TAB_FAVOURITES = "tab_favourites";
 
@@ -15,10 +19,6 @@ export const App = ({ service }) => {
     jokeService.getFavourites().then(setFavourites);
   }, []);
 
-  const loadJokes = e => {
-    jokeService.getAll().then(list => setJokes([...jokes, ...list]));
-  };
-
   const addToFavourites = joke => e => {
     jokeService.addToFavourites(joke).then(setFavourites);
   };
@@ -27,8 +27,25 @@ export const App = ({ service }) => {
     jokeService.removeFromFavourites(joke).then(setFavourites);
   };
 
-  const isActive = tab => activeTab === tab;
+  const loadJokes = e => {
+    jokeService.getAll().then(list => setJokes([...jokes, ...list]));
+  };
+
   const toTab = tab => e => setActiveTab(tab);
+  const isActive = tab => activeTab === tab;
+
+  const [timerOn, setTimerOn]: any = useFavouritesTimer(
+    () => {
+      jokeService
+        .getRandom()
+        .then(jokeService.addToFavourites)
+        .then(setFavourites);
+    },
+    TIMER_INTERVAL,
+    favourites.length
+  );
+
+  const toggleTimer = e => setTimerOn(!timerOn);
 
   return (
     <div className="wrapper">
@@ -36,31 +53,18 @@ export const App = ({ service }) => {
       <button onClick={toTab(TAB_JOKES)}>Jokes</button>
       <button onClick={toTab(TAB_FAVOURITES)}>Fav. jokes</button>
       {isActive(TAB_JOKES) && (
-        <div>
-          <ul>
-            {jokes.map(joke => (
-              <li key={joke.id}>
-                {joke.joke}
-                <button onClick={addToFavourites(joke)}>
-                  add to favourites
-                </button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={loadJokes}>load jokes...</button>
-        </div>
+        <TabJokes
+          jokes={jokes}
+          loadJokes={loadJokes}
+          addToFavourites={addToFavourites}
+        />
       )}
       {isActive(TAB_FAVOURITES) && (
-        <div>
-          {favourites.map(favourite => (
-            <li key={favourite.id}>
-              {favourite.joke}
-              <button onClick={removeFromFavourites(favourite)}>
-                remove from favourites
-              </button>
-            </li>
-          ))}
-        </div>
+        <TabFavourites
+          favourites={favourites}
+          removeFromFavourites={removeFromFavourites}
+          toggleTimer={toggleTimer}
+        />
       )}
     </div>
   );
