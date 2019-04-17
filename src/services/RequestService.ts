@@ -5,7 +5,7 @@ class RequestService {
     this.fetch = options.fetch || fetch;
   }
 
-  get(url) {
+  get(url): Promise<any> {
     return fetch(url)
       .then(res => res.json())
       .catch(e => {

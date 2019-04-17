@@ -1,40 +1,46 @@
 import StorageService from "./StorageService";
 import RequestService from "./RequestService";
+import { Joke } from "../models/Joke";
+
+interface JokeServiceOptions {
+  request?: RequestService;
+  storage?: StorageService;
+}
 
 const ENDPOINTS = {
-  joke: () => `http://api.icndb.com/jokes/random/1`,
-  jokes: () => `http://api.icndb.com/jokes/random/10`
+  joke: `http://api.icndb.com/jokes/random/1`,
+  jokes: `http://api.icndb.com/jokes/random/10`
 };
 
 export class JokeService {
   request: RequestService;
   storage: StorageService;
 
-  constructor(options: any = {}) {
+  constructor(options: JokeServiceOptions = {}) {
     this.request = options.request || new RequestService();
     this.storage = options.storage || new StorageService();
   }
 
-  getAll() {
-    return this.request.get(ENDPOINTS.jokes()).then(res => res.value);
+  getAll(): Promise<Joke[]> {
+    return this.request.get(ENDPOINTS.jokes).then(res => res.value);
   }
 
-  getRandom() {
+  getRandom(): Promise<Joke> {
     return this.request
-      .get(ENDPOINTS.joke())
+      .get(ENDPOINTS.joke)
       .then(res => res.value)
       .then(jokeList => jokeList.length && jokeList[0]);
   }
 
-  getFavourites() {
-    return this.storage.getAll();
+  getFavourites(): Promise<Joke[]> {
+    return Promise.resolve(this.storage.getAll());
   }
 
-  addToFavourites(jokeId: number, joke) {
-    return this.storage.set(jokeId, joke);
+  addToFavourites(joke: Joke): Promise<Joke[]> {
+    return Promise.resolve(this.storage.set(joke));
   }
 
-  removeFromFavourites(jokeId: number) {
-    return this.storage.remove(jokeId);
+  removeFromFavourites(joke: Joke): Promise<Joke[]> {
+    return Promise.resolve(this.storage.remove(joke));
   }
 }

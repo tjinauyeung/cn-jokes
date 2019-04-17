@@ -1,30 +1,34 @@
-class StorageService {
-  storage: any;
+import { Joke } from "../models/Joke";
 
-  constructor(options: any = {}) {
+interface StorageServiceOptions {
+  storage?: Storage;
+}
+
+class StorageService {
+  storage: Storage;
+
+  constructor(options: StorageServiceOptions = {}) {
     this.storage = options.storage || localStorage;
   }
 
-  set(key, value) {
-    this.storage.setItem(key, value);
+  set(joke: Joke): Joke[] {
+    this.storage.setItem(joke.id, JSON.stringify(joke));
     return this.getAll();
   }
 
-  get(key) {
-    this.storage.getItem(key);
+  get(jokeId: string): Joke {
+    return JSON.parse(this.storage.getItem(jokeId));
+  }
+
+  remove(joke: Joke): Joke[] {
+    this.storage.removeItem(joke.id);
     return this.getAll();
   }
 
-  remove(key) {
-    this.storage.removeItem(key);
-    return this.getAll();
-  }
-
-  getAll() {
-    return Object.keys(this.storage).reduce((result, item) => {
-      result[item] = this.storage.getItem(item);
-      return result;
-    }, {});
+  getAll(): Joke[] {
+    return Object.keys(this.storage).reduce((result, id) => {
+      return [...result, this.get(id)];
+    }, []);
   }
 }
 
