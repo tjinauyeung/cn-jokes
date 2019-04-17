@@ -16,20 +16,24 @@ class StorageService {
     return this.getAll();
   };
 
-  get(jokeId: string): Joke {
-    return JSON.parse(this.storage.getItem(jokeId));
-  }
+  get = (jokeId: string): Joke => {
+    try {
+      return JSON.parse(this.storage.getItem(jokeId));
+    } catch (e) {
+      return;
+    }
+  };
 
-  remove(joke: Joke): Joke[] {
+  remove = (joke: Joke): Joke[] => {
     this.storage.removeItem(joke.id);
     return this.getAll();
-  }
+  };
 
-  getAll(): Joke[] {
+  getAll = (): Joke[] => {
     return Object.keys(this.storage).reduce((result, id) => {
       return [...result, this.get(id)];
     }, []);
-  }
+  };
 }
 
 export default StorageService;
