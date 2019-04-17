@@ -1,19 +1,23 @@
 import * as React from "react";
+import { Joke } from "../Joke";
 
 export const TabFavourites = ({
   favourites,
   removeFromFavourites,
-  toggleTimer
+  toggleTimer,
+  timerOn
 }) => (
   <div>
-    <button onClick={toggleTimer}>⏰</button>
+    <button className="btn" onClick={toggleTimer}>
+      {timerOn ? "Stop" : "Start"} ⏰ (adds joke to favourite)
+    </button>
     {favourites.map(favourite => (
-      <div key={favourite.id}>
-        {favourite.joke}
-        <button onClick={removeFromFavourites(favourite)}>
-          remove from favourites
-        </button>
-      </div>
+      <Joke
+        key={favourite.id}
+        joke={favourite}
+        onClick={removeFromFavourites(favourite)}
+        buttonText="✕"
+      />
     ))}
   </div>
 );

@@ -1,16 +1,21 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { JokeService } from "./services/JokeService";
 import { TabJokes } from "./components/TabJokes";
 import { TabFavourites } from "./components/TabFavourites";
 import { useFavouritesTimer } from "./hooks/useFavouritesTimer";
+import { Tab } from "./components/Tab";
+
+interface AppProps {
+  service?: JokeService;
+}
 
 const TIMER_INTERVAL = 1000;
 const TAB_JOKES = "tab_jokes";
 const TAB_FAVOURITES = "tab_favourites";
 
-export const App = ({ service }) => {
-  const jokeService: JokeService = service || new JokeService();
+export const App = ({ service }: AppProps) => {
+  const jokeService = service || new JokeService();
   const [activeTab, setActiveTab] = useState(TAB_JOKES);
   const [jokes, setJokes] = useState([]);
   const [favourites, setFavourites] = useState([]);
@@ -48,15 +53,21 @@ export const App = ({ service }) => {
   const toggleTimer = e => setTimerOn(!timerOn);
 
   return (
-    <div className="wrapper">
-      <h1>Chuck Norris</h1>
-      <button onClick={toTab(TAB_JOKES)}>Jokes</button>
-      <button onClick={toTab(TAB_FAVOURITES)}>Fav. jokes</button>
+    <Fragment>
+      <h1 className="title">Chuck Norris</h1>
+      <Tab active={isActive(TAB_JOKES)} onClick={toTab(TAB_JOKES)}>
+        Jokes
+      </Tab>
+      <Tab active={isActive(TAB_FAVOURITES)} onClick={toTab(TAB_FAVOURITES)}>
+        Fav. jokes
+      </Tab>
       {isActive(TAB_JOKES) && (
         <TabJokes
           jokes={jokes}
           loadJokes={loadJokes}
           addToFavourites={addToFavourites}
+          removeFromFavourites={removeFromFavourites}
+          favourites={favourites}
         />
       )}
       {isActive(TAB_FAVOURITES) && (
@@ -64,8 +75,9 @@ export const App = ({ service }) => {
           favourites={favourites}
           removeFromFavourites={removeFromFavourites}
           toggleTimer={toggleTimer}
+          timerOn={timerOn}
         />
       )}
-    </div>
+    </Fragment>
   );
 };
